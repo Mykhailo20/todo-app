@@ -1,0 +1,4 @@
+Learn Python
+Practice Python
+Learn Web (HTML, CSS and JavaScript)
+Learn time library (Python)
