@@ -15,6 +15,7 @@ dt_str = now.strftime("%B %d, %Y %H:%M:%S")
 print("It is " + dt_str + '.')
 """
 
+print("The time is below")
 now = time.strftime("%b %d, %Y %H:%M:%S")
 print("It is", now)
 
