@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 
-# reading a todo list from file 'todos.txt'
+# reading from file 'todos.txt'
 with open('todos.txt', 'r') as file:
     todoList = file.readlines()
 
@@ -22,7 +22,7 @@ while True:
         case sg.WIN_CLOSED:
             break                                   # break the while loop
 
-# writing a changed todo-list to file 'todos.txt'
+# writing to file 'todos.txt'
 with open('todos.txt', 'w') as file:
     file.writelines(todoList)
 
