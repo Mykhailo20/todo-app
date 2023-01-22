@@ -2,6 +2,4 @@ Learn Python
 Practice Python (CM)
 Learn Web (HTML, CSS and JavaScript)
 Learn calendar library (Python)
-Learn a datetime library (Python)
 Learn JavaScript
-Practice CSS, HTML and Bootstrap
