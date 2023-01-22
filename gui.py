@@ -1,9 +1,13 @@
 import PySimpleGUI as sg
+import time
 
 # reading a todo-list from file 'todos.txt'
 with open('todos.txt', 'r') as file:
     todoList = file.readlines()
 
+sg.theme("Black")
+
+label_clock = sg.Text("", key="clock")
 label = sg.Text("Type in a to-do:")
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
 add_button = sg.Button("Add")
@@ -14,36 +18,42 @@ complete_button = sg.Button("Complete")
 exit_button = sg.Button("Exit")
 
 window = sg.Window('My To-Do App',
-                   layout=[[label],
+                   layout=[[label_clock],
+                           [label],
                            [input_box, add_button],
                            [list_box, edit_button, complete_button],
                            [exit_button]],
                    font=("Helvetica", 10))
 
 while True:
-    event, values = window.read()                   # show the parent form (window) with all its elements
-    print(event)
-    print(values)
+    event, values = window.read(timeout=500)     # show the parent form (window) with all its elements
+    window["clock"].update(value=time.strftime("%b %d, %Y %H:%M:%S"))
     match event:
         case 'Add':
            todoList.append(values['todo']+'\n')
            window['todos'].update(values=todoList)
 
         case 'Edit':
-            todo_to_edit = values['todos'][0]
-            new_todo = values['todo']
+            try:
+                todo_to_edit = values['todos'][0]
+                new_todo = values['todo']
 
-            index = todoList.index(todo_to_edit)
-            todoList[index] = new_todo
+                index = todoList.index(todo_to_edit)
+                todoList[index] = new_todo
 
-            window['todos'].update(values=todoList)
+                window['todos'].update(values=todoList)
+            except IndexError:
+                sg.popup("Please select an item first", font=("Helvetica", 10))
 
         case 'Complete':
-            todo_to_complete = values['todos'][0]
-            todoList.remove(todo_to_complete)
+            try:
+                todo_to_complete = values['todos'][0]
+                todoList.remove(todo_to_complete)
 
-            window['todos'].update(values=todoList)
-            window['todo'].update(value="")
+                window['todos'].update(values=todoList)
+                window['todo'].update(value="")
+            except IndexError:
+                sg.popup("Please select an item first", font=("Helvetica", 10))
 
         case 'todos':
             window['todo'].update(value=values['todos'][0])
