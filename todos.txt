@@ -1,5 +1,5 @@
 Learn Python
-Practice Python (CM)
+Practice Python (CM and Course)
 Learn Web (HTML, CSS and JavaScript)
 Learn calendar library (Python)
 Learn JavaScript
