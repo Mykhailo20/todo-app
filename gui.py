@@ -16,8 +16,6 @@ label_clock = sg.Text("", key="clock")
 label = sg.Text("Type in a to-do:")
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
 add_button = sg.Button("Add")
-# add_button_img = sg.Button(size=2, image_source="images/add.png", mouseover_colors="LightBlue2",
-#                           tooltip="Add todo", key="Add2")
 list_box = sg.Listbox(values=todoList, key="todos",
                       enable_events=True, size=[45, 10])
 edit_button = sg.Button("Edit")
@@ -77,4 +75,3 @@ with open('todos.txt', 'w') as file:
     file.writelines(todoList)
 
 window.close()
-
