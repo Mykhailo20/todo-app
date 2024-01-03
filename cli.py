@@ -1,10 +1,12 @@
 import time
 
-print(f"Current time: {time.strftime('%b %d, %Y %H:%M:%S')}")
+from modules.file_operations import *
 
+todo_filename = 'todos.txt'
+todo_list = read_todos(filename=todo_filename)
+
+print(f"Current time: {time.strftime('%b %d, %Y %H:%M:%S')}")
 user_prompt = "Enter a todo: "
-with open('todos.txt', 'r') as file:
-    todoList = file.readlines()
 
 while True:
     user_action = input("Type add, show, edit, complete or exit: ")
@@ -12,17 +14,17 @@ while True:
 
     if user_action.startswith('add'):
         todo = user_action[4:] + '\n'
-        todoList.append(todo)
+        todo_list.append(todo)
 
     elif (user_action.startswith('show')) or (user_action.startswith('display')):
-        for index, item in enumerate(todoList):
+        for index, item in enumerate(todo_list):
             item = item.strip('\n')
             print(f"{index + 1}) {item}")
     elif user_action.startswith("edit"):
         try:
             index = int(user_action[5:])
             index -= 1
-            todoList[index] = input("Enter a new todo: ").strip() + "\n"
+            todo_list[index] = input("Enter a new todo: ").strip() + "\n"
         except ValueError:
             print("Your command is not valid.")
             continue
@@ -34,8 +36,8 @@ while True:
         try:
             index = int(user_action[9:])
             index -= 1
-            todo_to_remove = todoList[index].strip('\n')
-            todoList.pop(index)
+            todo_to_remove = todo_list[index].strip('\n')
+            todo_list.pop(index)
 
             print(f"Todo '{todo_to_remove}' was removed from the list")
         except ValueError:
@@ -50,7 +52,6 @@ while True:
     else:
         print("Command is not valid.")
 
-with open('todos.txt', 'w') as file:
-    file.writelines(todoList)
+write_todos(filename=todo_filename, todos=todo_list)
 
 print("The program has completed successfully!")

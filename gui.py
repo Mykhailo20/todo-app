@@ -1,14 +1,15 @@
-import PySimpleGUI as sg
-import time
 import os
+import time
+import PySimpleGUI as sg
 
-if not os.path.exists('todos.txt'):
-    with open('todos.txt', 'w') as file:
+from modules.file_operations import *
+
+todo_filename = 'todos.txt'
+if not os.path.exists(todo_filename):
+    with open(todo_filename, 'w') as file:
         pass
 
-# reading a todo-list from file 'todos.txt'
-with open('todos.txt', 'r') as file:
-    todoList = file.readlines()
+todo_list = read_todos(filename=todo_filename)
 
 sg.theme("Black")
 
@@ -16,7 +17,7 @@ label_clock = sg.Text("", key="clock")
 label = sg.Text("Type in a to-do:")
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
 add_button = sg.Button("Add")
-list_box = sg.Listbox(values=todoList, key="todos",
+list_box = sg.Listbox(values=todo_list, key="todos",
                       enable_events=True, size=[45, 10])
 edit_button = sg.Button("Edit")
 complete_button = sg.Button("Complete")
@@ -35,28 +36,28 @@ while True:
     window["clock"].update(value=time.strftime("%b %d, %Y %H:%M:%S"))
     match event:
         case 'Add':
-           todoList.append(values['todo']+'\n')
-           window['todos'].update(values=todoList)
-           window['todo'].update(value="")
+            todo_list.append(values['todo'] + '\n')
+            window['todos'].update(values=todo_list)
+            window['todo'].update(value="")
 
         case 'Edit':
             try:
                 todo_to_edit = values['todos'][0]
                 new_todo = values['todo']
 
-                index = todoList.index(todo_to_edit)
-                todoList[index] = new_todo
+                index = todo_list.index(todo_to_edit)
+                todo_list[index] = new_todo
 
-                window['todos'].update(values=todoList)
+                window['todos'].update(values=todo_list)
             except IndexError:
                 sg.popup("Please select an item first", font=("Helvetica", 10))
 
         case 'Complete':
             try:
                 todo_to_complete = values['todos'][0]
-                todoList.remove(todo_to_complete)
+                todo_list.remove(todo_to_complete)
 
-                window['todos'].update(values=todoList)
+                window['todos'].update(values=todo_list)
                 window['todo'].update(value="")
             except IndexError:
                 sg.popup("Please select an item first", font=("Helvetica", 10))
@@ -70,8 +71,6 @@ while True:
         case sg.WIN_CLOSED:
             break                                   # break the while loop
 
-# writing a todo-list to file 'todos.txt'
-with open('todos.txt', 'w') as file:
-    file.writelines(todoList)
+write_todos(filename=todo_filename, todos=todo_list)
 
 window.close()
