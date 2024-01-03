@@ -9,20 +9,20 @@ print(f"Current time: {time.strftime('%b %d, %Y %H:%M:%S')}")
 user_prompt = "Enter a todo: "
 
 while True:
-    user_action = input("Type add, show, edit, complete or exit: ")
-    user_action = user_action.strip()  # to avoid spaces in the input
+    user_action = input("Type add, show, edit, complete or exit: ").strip()     # strip - to avoid spaces in the input
 
-    if user_action.startswith('add'):
-        todo = user_action[4:] + '\n'
+    if user_action.startswith("add"):
+        todo = user_action[4:] + "\n" if len(user_action) > len("add") else input("Enter a new todo: ").strip() + "\n"
         todo_list.append(todo)
 
-    elif (user_action.startswith('show')) or (user_action.startswith('display')):
+    elif (user_action.startswith("show")) or (user_action.startswith("display")):
         for index, item in enumerate(todo_list):
             item = item.strip('\n')
             print(f"{index + 1}) {item}")
     elif user_action.startswith("edit"):
         try:
-            index = int(user_action[5:])
+            index = int(user_action[5:]) if len(user_action) > len("edit") \
+                else int(input("Enter a todo index: ").strip())
             index -= 1
             todo_list[index] = input("Enter a new todo: ").strip() + "\n"
         except ValueError:
@@ -32,14 +32,15 @@ while True:
             print("There is no item with that index.")
             continue
 
-    elif user_action.startswith('complete'):
+    elif user_action.startswith("complete"):
         try:
-            index = int(user_action[9:])
+            index = int(user_action[9:]) if len(user_action) > len("complete") \
+                else int(input("Enter a todo index: ").strip())
             index -= 1
             todo_to_remove = todo_list[index].strip('\n')
             todo_list.pop(index)
 
-            print(f"Todo '{todo_to_remove}' was removed from the list")
+            print(f"Todo '{todo_to_remove}' was removed from the list.")
         except ValueError:
             print("Your command is not valid.")
             continue
