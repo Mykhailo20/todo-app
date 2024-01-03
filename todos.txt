@@ -1,8 +1,5 @@
 Learn Python
-Practice Python (CM and Course)
 Learn Web (HTML, CSS and JavaScript)
-Learn calendar library (Python)
 Learn JavaScript
-Clean the bag
 Learn DataScience
-Fix a lamp.
+Learn Machine Learning

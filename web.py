@@ -17,8 +17,14 @@ st.title("My Todo App")
 st.subheader("This is my first web app")
 st.write("This app is to increase your productivity.")
 
-for todo in todo_list:
-    st.checkbox(todo)
-
+for index, todo in enumerate(todo_list):
+    checkbox = st.checkbox(todo, key=todo)
+    if checkbox:
+        todo_list.pop(index)
+        with open("todos.txt", 'w') as file:
+            file.writelines(todo_list)
+        del st.session_state[todo]
+        st.experimental_rerun()
+        
 st.text_input(label="", placeholder="Add new todo...",
               on_change=add_todo, key='new_todo')
